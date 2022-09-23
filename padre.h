@@ -7,3 +7,5 @@
 int crearHijos(int);
 
 int aniosDocumento(char*);
+
+char * archivoIntermedioOrd(char*);

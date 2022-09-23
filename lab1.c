@@ -69,5 +69,8 @@ int main(int argc, char *argv[])
     printf("%d\n", cantHijosCrear);
     int res = crearHijos(cantHijosCrear);
 
+    /************************************ Lógica de solución - punto 3 ************************************/
+    char * res1;
+    strcpy( archivoIntermedioOrd(nombreArchivoEntrada), res1);
     return 0;
 }
