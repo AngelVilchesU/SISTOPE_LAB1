@@ -1,4 +1,6 @@
 #include "padre.h"
+#include "hijo.h"
+
 
 char *copiarString(char string[])
 {
@@ -25,21 +27,21 @@ void crearHijos(TDAlista* lista)
         exit(fprintf(stderr, "Pipe Failed"));
     }
 
-    printf("Proceso con PID = %d, comienza\n", getpid());
+    //printf("Proceso con PID = %d, comienza\n", getpid());
 
     pid = fork(); // Crea un proceso hijo
 
     if (pid > 0) // Si es el padre
     {
-        close(p1[0]);
-        write(p1[1], lista, 1000);
-        close(p1[1]);
+
         printf("Soy el padre\n");
+
     }
     else if (pid == 0) // Si es el hijo
     {
-        recorrerLista(lista);
-        printf("ACA RECIBO TDA\n");
+        printf("Invoco void calculos");
+        calculos(lista);
+        //recorrerLista(lista);
         exit(printf("Soy el hijo\n"));
     }
     else if (pid == -1) // Error

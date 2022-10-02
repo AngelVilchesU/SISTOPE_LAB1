@@ -26,3 +26,5 @@ void insertarInicio(TDAlista*, int);
 int esListaVacia(TDAlista* );
 
 void recorrerLista(TDAlista* );
+
+int retornarDato(TDAlista* );

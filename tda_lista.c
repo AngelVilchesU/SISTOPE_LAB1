@@ -4,27 +4,27 @@
 
 /*//////////////////////////////////////////////////////////////////////////*/
 
-TDAlista* crearListaVacia()
+TDAlista *crearListaVacia()
 {
-  TDAlista* lista=(TDAlista*)malloc(sizeof(TDAlista));
-  lista->inicio=NULL;
+  TDAlista *lista = (TDAlista *)malloc(sizeof(TDAlista));
+  lista->inicio = NULL;
   return lista;
 }
 
-void liberarLista(TDAlista* lista)
+void liberarLista(TDAlista *lista)
 {
-    free(lista);
+  free(lista);
 }
 
-void insertarInicio(TDAlista* lista, int dato)
+void insertarInicio(TDAlista *lista, int dato)
 {
-  nodo* nuevo=(nodo*)malloc(sizeof(nodo));
-  nuevo->dato=dato;
+  nodo *nuevo = (nodo *)malloc(sizeof(nodo));
+  nuevo->dato = dato;
   nuevo->puntero = lista->inicio;
-  lista->inicio=nuevo;
+  lista->inicio = nuevo;
 }
 
-int esListaVacia(TDAlista* lista)
+int esListaVacia(TDAlista *lista)
 {
   if (lista->inicio == NULL)
     return 1;
@@ -32,18 +32,36 @@ int esListaVacia(TDAlista* lista)
     return 0;
 }
 
-void recorrerLista(TDAlista* lista)
+void recorrerLista(TDAlista *lista)
 {
   if (!esListaVacia(lista))
   {
-    nodo* auxiliar=lista->inicio;
-    while (auxiliar!=NULL)
+    nodo *auxiliar = lista->inicio;
+    while (auxiliar != NULL)
     {
-      printf("%d ",auxiliar->dato);
-      auxiliar=auxiliar->puntero;
+      printf("%d ", auxiliar->dato);
+      auxiliar = auxiliar->puntero;
     }
     printf("\n");
   }
   else
     printf("La lista está vacía\n");
+}
+
+int retornarDato(TDAlista *lista)
+{
+  if (!esListaVacia(lista))
+  {
+    nodo *auxiliar = lista->inicio;
+
+    printf("%d ", auxiliar->dato);
+    int dato = auxiliar->dato;
+    auxiliar = auxiliar->puntero;
+    return dato;
+  }
+  else{
+    printf("La lista está vacía\n");
+    return -1;
+  }
+  return -1;
 }
