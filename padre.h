@@ -8,4 +8,4 @@ int crearHijos(int);
 
 int aniosDocumento(char*);
 
-char * archivoIntermedioOrd(char*);
+void archivoIntermedioOrd(char*, int);

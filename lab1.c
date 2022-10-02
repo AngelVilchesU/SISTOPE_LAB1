@@ -70,7 +70,10 @@ int main(int argc, char *argv[])
     int res = crearHijos(cantHijosCrear);
 
     /************************************ Lógica de solución - punto 3 ************************************/
-    char * res1;
-    strcpy( archivoIntermedioOrd(nombreArchivoEntrada), res1);
+    archivoIntermedioOrd(nombreArchivoEntrada, cantHijosCrear);
+
+    /************************************ Lógica de solución - punto 4 ************************************/
+    
+
     return 0;
 }
