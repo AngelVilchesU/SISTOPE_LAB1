@@ -3,8 +3,9 @@
 #include <stdlib.h>
 #include <string.h>
 #include <sys/wait.h>
+#include "tda_lista.h"
 
-int crearHijos(int);
+void crearHijos(TDAlista *);
 
 int aniosDocumento(char*);
 

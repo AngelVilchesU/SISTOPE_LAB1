@@ -1,7 +1,4 @@
 #include "padre.h"
-#include "tda_lista.h"
-
-
 
 char *copiarString(char string[])
 {
@@ -15,39 +12,42 @@ char *copiarString(char string[])
 // Salidas: Se retorna el valor entero positivo 1 señalando la correcta creación de hijos
 // Descripción: Se realiza un ciclo el cual crea procesos hijos equivalentes al número ingresado
 //              inicialmente como parametro de entrada
-int crearHijos(int aniosDocumento)
+void crearHijos(TDAlista* lista)
 {
     pid_t pid;
     int iter;
     int status;
     int p1[2];
+    int p2[2];
 
-    if (pipe(p1) == -1) {
-        fprintf(stderr, "Pipe Failed");
-        return 1;
+    if (pipe(p1) == -1 || pipe(p2) == -1)
+    {
+        exit(fprintf(stderr, "Pipe Failed"));
     }
-
 
     printf("Proceso con PID = %d, comienza\n", getpid());
 
-    for (iter = 0; iter < aniosDocumento; iter++)
+    pid = fork(); // Crea un proceso hijo
+
+    if (pid > 0) // Si es el padre
     {
-        pid = fork(); // Crea un proceso hijo
-        
+        close(p1[0]);
+        write(p1[1], lista, 1000);
+        close(p1[1]);
+        printf("Soy el padre\n");
     }
-    if (pid > 0)  // Si es el padre
-            printf("Soy el padre\n");
-        else if (pid == 0) // Si es el hijo
-        {
-            printf("Soy el hijo\n");
-        }
-        else // Error
-        {
-            printf("ERROR\n");
-        }
+    else if (pid == 0) // Si es el hijo
+    {
+        recorrerLista(lista);
+        printf("ACA RECIBO TDA\n");
+        exit(printf("Soy el hijo\n"));
+    }
+    else if (pid == -1) // Error
+    {
+        printf("ERROR\n");
+    }
 
-
-    return 1;
+    
 }
 
 // Entrada: Se recibe el nombre del archivo/documento de entrada
@@ -231,10 +231,10 @@ void archivoIntermedioOrd(char *nombreDocumento, int cantAnios)
         rewind(dctoInt);
         while (fgets(linea, 300, dctoInt) != NULL)
         {
-            iter = 1;                   // iterador para ................
+            iter = 1;                     // iterador para ................
             auxStr = copiarString(linea); // Se genera un auxiliar de la línea
-            trozo = strtok(linea, ","); // Se particiona la línea extraida de acuerdo a las comas (,)
-            while (trozo != NULL)       // Mientras no se tengo un trozo nulo
+            trozo = strtok(linea, ",");   // Se particiona la línea extraida de acuerdo a las comas (,)
+            while (trozo != NULL)         // Mientras no se tengo un trozo nulo
             {
                 trozo = strtok(NULL, ","); // Se particiona con la finalidad de obtener el año a evaluar
                 if (iter == posicionAnio)  // Si el iterador es igual a la posición en la que se encuetra el año a evualuar...
@@ -254,12 +254,7 @@ void archivoIntermedioOrd(char *nombreDocumento, int cantAnios)
         }
         /* Pasar lista al hijo */
 
-
-
-
-
-        
-
+        crearHijos(lista);
         liberarLista(lista);
     }
 
