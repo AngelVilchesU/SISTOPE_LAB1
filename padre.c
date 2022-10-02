@@ -1,5 +1,4 @@
 #include "padre.h"
-#include "hijo.h"
 
 
 char *copiarString(char string[])
@@ -18,9 +17,10 @@ void crearHijos(TDAlista* lista)
 {
     pid_t pid;
     int iter;
-    int status;
+    int num;
     int p1[2];
     int p2[2];
+    
 
     if (pipe(p1) == -1 || pipe(p2) == -1)
     {
@@ -39,8 +39,12 @@ void crearHijos(TDAlista* lista)
     }
     else if (pid == 0) // Si es el hijo
     {
-        printf("Invoco void calculos");
+        printf("Invoco void calculos con lista: ");
+        recorrerLista(lista);
+        printf("\n");
+        wait(NULL);
         calculos(lista);
+        
         //recorrerLista(lista);
         exit(printf("Soy el hijo\n"));
     }
