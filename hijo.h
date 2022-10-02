@@ -17,7 +17,6 @@ typedef struct listaGenerica
   nodo* inicio;
 }TDAlista;
 
-
 /*------------- operaciones -------------*/
 
 TDAlista* crearListaVacia();
