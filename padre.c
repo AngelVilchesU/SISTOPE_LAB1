@@ -20,16 +20,27 @@ char *copiarString(char string[])
 //              se crea un hijo mediante fork al cual se le asignará el cálculo asociado a la
 //              obtención de valores (juego más caro, barato, gratis, promedio de precios y
 //              porcentaje de plataformas disponibilizadas) para finalmente terminar su
-//              ejecución             
-void crearHijos(TDAlista* lista)
+//              ejecución
+void crearHijos(TDAlista *lista, char *nombreArchivo)
 {
+    char **arreglo;
     pid_t pid;
     int iter, num;
     pid = fork(); // Crea un proceso hijo
     if (pid == 0) // Si es el hijo
     {
         wait(NULL);
-        calculos(lista); // Se llama a la función calculos la cual realizará todos los cálculos asociados a este hijo (, nombrearchivo)
+        arreglo = calculos(lista); // Se llama a la función calculos la cual realizará todos los cálculos asociados a este hijo (, nombrearchivo)
+
+        FILE *flujo = fopen(nombreArchivo, "a+");
+        for (int i = 0; i < 6; i++)
+        {
+            fprintf(flujo, "%s", arreglo[i]);
+            printf("I: %d\n", i);
+            printf("%s", arreglo[i]);
+        }
+
+        fclose(flujo);
         exit(wait(NULL));
     }
     else if (pid == -1) // Error
@@ -48,7 +59,7 @@ void crearHijos(TDAlista* lista)
 int aniosDocumento(char *nombreDocumento)
 {
     FILE *dcto = fopen(nombreDocumento, "r"); // Se abre el documento con flag de lectura
-    if (dcto == NULL) // En caso de algún error asociado
+    if (dcto == NULL)                         // En caso de algún error asociado
     {
         printf("%s: error in input file named\n", nombreDocumento);
         exit(-1);
@@ -65,15 +76,15 @@ int aniosDocumento(char *nombreDocumento)
     }
     while (fgets(linea, 300, dcto)) // Mientras no se lea cada línea en el documento de entrada
     {
-        iter = 1; // Iterador para avanzar en el buffer del a continuación strtok
+        iter = 1;                   // Iterador para avanzar en el buffer del a continuación strtok
         trozo = strtok(linea, ","); // Particionamiento de la línea del archivo de entrada (",")
-        while (trozo != NULL) // Mientras los trozos apuntados no figuren como un nulo
+        while (trozo != NULL)       // Mientras los trozos apuntados no figuren como un nulo
         {
             trozo = strtok(NULL, ",");
             if (iter == posicionAnio) // Si el iterador coinicide con la posición del año en la línea
             {
-                anio = atoi(trozo); // Se convierte el dato (año) desde string/char* a entero
-                iter1 = 0; // iterador por concepto de rellenamiento de arreglo
+                anio = atoi(trozo);        // Se convierte el dato (año) desde string/char* a entero
+                iter1 = 0;                 // iterador por concepto de rellenamiento de arreglo
                 while (iter1 < arrTamanio) // Mientras el iterador sea menor al tamaño del arreglo contenedor de años
                 {
                     if (maxAnios[iter1] == anio) // Si el arreglo en la posición actual contiene el año actual
@@ -82,9 +93,9 @@ int aniosDocumento(char *nombreDocumento)
                     }
                     else if (maxAnios[iter1] == 0) // Si se llega a un valor 0, es decir, no se posee el año actual
                     {
-                        maxAnios[iter1] = anio; // Se adiciona el año
+                        maxAnios[iter1] = anio;            // Se adiciona el año
                         cantidadAnios = cantidadAnios + 1; // Variable que considera la cantidad de años sin repetición
-                        iter1 = iter1 + arrTamanio; // Finaliza el ciclo (se ha agregado el año)
+                        iter1 = iter1 + arrTamanio;        // Finaliza el ciclo (se ha agregado el año)
                     }
                     iter1 = iter1 + 1;
                 }
@@ -92,7 +103,7 @@ int aniosDocumento(char *nombreDocumento)
             iter = iter + 1;
         }
     }
-    fclose(dcto); // Se cierra el documento de entrada
+    fclose(dcto);         // Se cierra el documento de entrada
     return cantidadAnios; // Se retorna la cantidad de años sin repetición
 }
 
@@ -108,10 +119,10 @@ int aniosDocumento(char *nombreDocumento)
 //              gracias la función ftell la información asociada a la posición de cada línea en el archivo
 //              de acuerdo al año evaluado en la iteración para posteriormente entregarle esta información a un
 //              hijo en particular finalmente cerrando los archivos abiertos
-void archivoIntermedioOrd(char *nombreDocumento, int cantAnios)
+void archivoIntermedioOrd(char *nombreDocumento, int cantAnios, char *nombreArchivo)
 {
     FILE *dcto = fopen(nombreDocumento, "r"); // Se abre el archivo en modo lectura
-    if (dcto == NULL) // En caso de que no se logre abrir
+    if (dcto == NULL)                         // En caso de que no se logre abrir
     {
         printf("%s: error in input file named\n", nombreDocumento);
         exit(-1);
@@ -169,9 +180,9 @@ void archivoIntermedioOrd(char *nombreDocumento, int cantAnios)
         }
         iter2++;
     }
-    rewind(dcto); // Se reinicia el apuntador del archivo (al principio)
+    rewind(dcto);                                          // Se reinicia el apuntador del archivo (al principio)
     FILE *dctoInt = fopen("archivo_intermedio.csv", "a+"); // Se abre el archivo intermedio con flag de adición y lectura
-    if (dctoInt == NULL) // En caso de un error asociado
+    if (dctoInt == NULL)                                   // En caso de un error asociado
     {
         printf("intermediate file creation error\n");
         exit(-1);
@@ -183,9 +194,9 @@ void archivoIntermedioOrd(char *nombreDocumento, int cantAnios)
             while (fgets(linea, 300, dcto)) // Mientras no se lean todas las líneas del archivo
             {
                 auxStr = copiarString(linea); // Se genera un auxiliar de la línea
-                iter = 1;                   // iterador para conseguir la información asociada l
-                trozo = strtok(linea, ","); // Se particiona la línea extraida de acuerdo a las comas (,)
-                while (trozo != NULL)       // Mientras no se tengo un trozo nulo
+                iter = 1;                     // iterador para conseguir la información asociada l
+                trozo = strtok(linea, ",");   // Se particiona la línea extraida de acuerdo a las comas (,)
+                while (trozo != NULL)         // Mientras no se tengo un trozo nulo
                 {
                     trozo = strtok(NULL, ","); // Se particiona con la finalidad de obtener el año a evaluar
                     if (iter == posicionAnio)  // Si el iterador es igual a la posición en la que se encuetra el año a evualuar...
@@ -233,7 +244,7 @@ void archivoIntermedioOrd(char *nombreDocumento, int cantAnios)
         // La información asociada a las posiciones a evaluar por los hijos se encuentra
         // anexada a la lista enlazada y a continuación es entregada a cada hijo, de forma
         // especifica y particula
-        crearHijos(lista);
+        crearHijos(lista, nombreArchivo);
         liberarLista(lista);
     }
     fflush(dcto);

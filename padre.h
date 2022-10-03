@@ -5,8 +5,8 @@
 #include <sys/wait.h>
 #include "hijo.h"
 
-void crearHijos(TDAlista *);
+void crearHijos(TDAlista *, char* );
 
 int aniosDocumento(char*);
 
-void archivoIntermedioOrd(char*, int);
+void archivoIntermedioOrd(char*, int, char* );

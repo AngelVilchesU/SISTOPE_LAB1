@@ -32,7 +32,7 @@ int esListaVacia(TDAlista* );
 
 int retornarDato(TDAlista* );
 
-void calculos(TDAlista* );
+char** calculos(TDAlista* );
 
 void eliminarInicio(TDAlista* );
 

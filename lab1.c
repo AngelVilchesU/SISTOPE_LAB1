@@ -66,12 +66,12 @@ int main(int argc, char *argv[])
 
     /************************************ Lógica de solución - punto 2 ************************************/
     cantHijosCrear = aniosDocumento(nombreArchivoEntrada);
-    printf("%d\n", cantHijosCrear);
+    //printf("%d\n", cantHijosCrear);
     
 
     /************************************ Lógica de solución - punto 3 ************************************/
     
-    archivoIntermedioOrd(nombreArchivoEntrada, cantHijosCrear);
+    archivoIntermedioOrd(nombreArchivoEntrada, cantHijosCrear, nombreArchivoSalida);
 
     /************************************ Lógica de solución - punto 4 ************************************/
     

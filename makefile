@@ -8,4 +8,4 @@ hijo.o: hijo.c hijo.h
 	gcc -c hijo.c
 
 clear:
-	rm -f *.o main
+	rm -f *.o lab1

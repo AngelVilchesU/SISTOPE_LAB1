@@ -42,7 +42,7 @@ float porcentaje(int total, int nro)
 // Entradas: Se ingresa una lista enlazada
 // Salidas: 
 // Descripción: 
-void calculos(TDAlista *lista)
+char** calculos(TDAlista *lista)
 {
     int cantNodos = nroNodosLista(lista);
     char str[cantNodos][300];
@@ -160,10 +160,10 @@ void calculos(TDAlista *lista)
     }
     char *juegosGratis[nroJuegosGratis];
     //char arregloFinal[6][300];
-    char *arregloFinal = (char *)malloc(sizeof(6));
+    char **arregloFinal = (char**)malloc(sizeof(char*)*6);
     for (int i = 0; i < 6; i++)
     {
-        arregloFinal[i] = (char*)malloc(sizeof(300));
+        arregloFinal[i] = (char*)malloc(sizeof(char)*300);
     }
     
     int contador = 0;
@@ -217,7 +217,10 @@ void calculos(TDAlista *lista)
         strcat(linea6,"\n");
     }
     strcpy(arregloFinal[5],linea6);
-    printf("%s\n", arregloFinal[5]);
+    //printf("%s\n", arregloFinal[5]);
+
+    return arregloFinal;
+    
 }
 
 // Entradas: void
