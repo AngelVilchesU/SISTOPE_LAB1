@@ -9,9 +9,13 @@ int main(int argc, char *argv[])
 {
 
     /************************************ Lógica de solución - punto 1 ************************************/
+
+
+          
     char *nombreArchivoEntrada, *nombreArchivoSalida, *anioInicioJuego, *precioMinimoJuego;
     int iFlag = 0, oFlag = 0, dFlag = 0, pFlag = 0, bFlag = 0, cantHijosCrear;
     int opt, err;
+    printf("a");
     while ((opt = getopt(argc, argv, "i:o:d:p:b")) != -1)
     {
         switch (opt)
